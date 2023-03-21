@@ -54,7 +54,11 @@ ROOT_URLCONF = "djangojokes.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+
+        # Add the location of the project templates folder 
+        'DIRS': [BASE_DIR / 'templates'],
+        # "DIRS": [],
+
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
