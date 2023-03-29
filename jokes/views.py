@@ -1,8 +1,14 @@
 from django.shortcuts import render
 
+# import reverse_lazy function for JokeDeleteView
+from django.urls import reverse_lazy
+
 # Create JokeListView view for listing jokes in jokes app
 
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import (
+    CreateView, DetailView, ListView, UpdateView, DeleteView
+)
+
 from .models import Joke
 
 class JokeListView(ListView):
@@ -22,4 +28,10 @@ class JokeCreateView(CreateView):
 class JokeUpdateView(UpdateView):
     model = Joke
     fields = ['question', 'answer']
+
+# Create JokeDeleteView for jokes app to delete joke
+# Use reverse_lazy function to get the data of target joke
+class JokeDeleteView(DeleteView):
+    model = Joke
+    success_url = reverse_lazy('jokes:list')
 
