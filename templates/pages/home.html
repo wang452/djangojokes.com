@@ -1,7 +1,13 @@
 {% extends "_base.html" %}
 
+<!-- Load the custom tag library in common_tags.py file -->
+{% load common_tags %}
+
 {% block title %}Home{% endblock %}
 {% block main %}
   <h2>Welcome!</h2>
   <p>Ready to laugh?</p>
+  
+  <!-- get random joke returned from custom tag random_tag -->
+  {% random_joke %}
 {% endblock %}
