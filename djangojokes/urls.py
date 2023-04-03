@@ -19,6 +19,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # add path to django admin documentation generator urls
+    # must add admin/doc path before teh admin path pattern
+    path("admin/doc/", include('django.contrib.admindocs.urls')),
     path("admin/", admin.site.urls),
 
     # add path of the URLConf file for pages app

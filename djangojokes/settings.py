@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",
+
+    # add django admin documentation generator
+    'django.contrib.admindocs',
+
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
