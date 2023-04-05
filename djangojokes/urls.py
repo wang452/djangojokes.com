@@ -29,4 +29,7 @@ urlpatterns = [
 
     # 2nd - add path to the URLConf file of jokes app
     path('jokes/', include('jokes.urls')),
+
+    # 3rd - add path to the URLConf file of jobs app
+    path('jobs/', include('jobs.urls')),
 ]
