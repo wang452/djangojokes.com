@@ -13,3 +13,15 @@ header {
 h2 {
   font-style: italic;
 }
+
+# add rules for labels and checkboxes
+/* FORM STYLES */
+label {
+  font-variant: small-caps;
+}
+
+.form-check {
+  display: inline-block;
+  font-weight: normal;
+  margin: 0 1rem;
+}

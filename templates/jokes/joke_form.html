@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}Add/Update Joke{% endblock %}
 {% block main %}
@@ -6,9 +7,12 @@
     style="max-width: 30rem">
     <form method="post">
       {% csrf_token %}
+      {{ form|crispy }}
+      {% comment - replace built-in form with django-crispy-forms %}
       <table class="table">
         {{ form.as_table }}
       </table>
+      {% endcomment %}
       <button class="btn btn-success float-end">Submit</button>
     </form>
   </div>
