@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    # Third-party pip install djang-crispy-forms and crispy-bootstrap5
+    'crispy_forms',
+    'crispy_bootstrap5',
+
     # local pages app
     'common.apps.CommonConfig',
     'jobs.apps.JobsConfig',
@@ -51,6 +55,11 @@ INSTALLED_APPS = [
     "pages.apps.PagesConfig",
     'users.apps.UsersConfig',
 ]
+
+# New - added after installed django-crispy-forms and crispy-bootstrap5
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
