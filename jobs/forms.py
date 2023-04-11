@@ -6,13 +6,25 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 
+# import model Applicant for the JobApplicationForm inner class Meta
+from .models import Applicant
+
 def validate_future_date(value):
     if value < datetime.now().date():
         raise ValidationError(
             message=f'{value} is in the past.', code='past_date'
         )
 
-class JobApplicationForm(forms.Form):
+# ensure value entered for required fields
+def validate_checked(value):
+    if not value:
+        raise ValidationError("Required.")
+
+
+# replace JobApplicationForm to inherit forms.ModelForm to use model Applicant
+# class JobApplicationForm(forms.Form):
+
+class JobApplicationForm(forms.ModelForm):
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'autofocus':True})
     )
@@ -34,9 +46,9 @@ class JobApplicationForm(forms.Form):
     )
     emp_types = (
         (None, '---Please Choose---'),
-        ('full-time', 'Full-time'),
-        ('part-time', 'Part-time'),
-        ('contract-work', 'Contract work')
+        ('ft', 'Full-time'),
+        ('pt', 'Part-time'),
+        ('contract', 'Contract work')
     )
     employment_type = forms.ChoiceField(choices=emp_types)
     YEARS = range(datetime.now().year, datetime.now().year+2)
@@ -72,10 +84,10 @@ class JobApplicationForm(forms.Form):
         ('5', 'FRI')
     )
     
-    # change to TypedMutlipleChoiceField to convert string to int 
+    # change to TypedMultipleChoiceField to convert string to int 
     # with coerce option to send to server
     # available_date = forms.MultipleChoiceField(
-    available_date = forms.TypedMultipleChoiceField(
+    available_days = forms.TypedMultipleChoiceField(
         choices=date_avail,
         coerce=int,
         help_text='Select all days that you can work.',
@@ -98,5 +110,37 @@ class JobApplicationForm(forms.Form):
         widget=forms.Textarea(attrs={'cols': '75', 'rows': '5'})
     )
     confirmation = forms.BooleanField(
-        label='I certify that the information I have provided is true.'
+        label='I certify that the information I have provided is true.',
+        # add validator to ensure confirmation is checked
+        validators=[validate_checked]
     )
+
+    # add inner class Meta to customize fields and message
+    class Meta:
+        model = Applicant
+        fields = (
+            'first_name', 'last_name', 'email', 'website', 'employment_type',
+            'start_date', 'available_days', 'desired_hourly_wage',
+            'cover_letter', 'confirmation', 'job')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'autofocus': True}),
+            'website': forms.TextInput(
+                attrs = {'placeholder':'https://www.example.com'}
+            ),
+            'start_date': forms.SelectDateWidget(
+                attrs = {
+                    'style': 'width: 31%; display: inline-block; margin: 0 1%'
+                },
+                years = range(datetime.now().year, datetime.now().year+2)
+            ),
+            'desired_hourly_wage': forms.NumberInput(
+                attrs = {'min':'10.00', 'max':'100.00', 'step':'.25'}
+            ),
+            'cover_letter': forms.Textarea(attrs={'cols': '100', 'rows': '5'})
+        }
+        error_messages = {
+            'start_date': {
+                'past_date': 'Please enter a future date.'
+            }
+        }
+

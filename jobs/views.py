@@ -8,17 +8,27 @@ import html
 from django.urls import reverse_lazy
 
 # import FromView to create form and TemplateView for template html
-from django.views.generic import FormView, TemplateView
+from django.views.generic import CreateView, FormView, TemplateView
 
 # import send_email utility to send email via sendgrid API
 from common.utils.email import send_email
 
+# import Job and Application models from jobs\models.py
+from .models import Applicant
+
 # import class JobApplicationFrom in jobs\forms.py to display form fields
 from .forms import JobApplicationForm
 
+"""Replace JobAppView to inherit CreateView with model Applicant
+   Also copy the templates\jobs\joke_writer.html to applicant_form.html 
+   as CreateView infer with template name from the model name with postfix
+   _form.html
 # define template and form fields to use for display the form
 class JobAppView(FormView):
     template_name = 'jobs/joke_writer.html'
+"""
+class JobAppView(CreateView):
+    model = Applicant
     form_class = JobApplicationForm
     success_url = reverse_lazy('jobs:thanks')
 
