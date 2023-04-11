@@ -21,6 +21,12 @@ class Joke(models.Model):
     # category field is not existed in existing row joke in Joke table
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
 
+    # add field tags to Joke model that has many-to-many relationship 
+    # with the Tag model where one joke can assigned with many tags and one tag
+    # assigned to one joke
+    # add blank=True to make tags field as optional instead of required by default
+    tags = models.ManyToManyField('Tag', blank=True)
+
     # add new slug field to Joke model that is unique and not editable
     slug = models.SlugField(
         max_length=50, unique=True, null=False, editable=False
@@ -74,6 +80,35 @@ class Category(models.Model):
     # override default plural form of model name is just the name of model
     # followed by an "s". Use inner class Meta with verbose_name_plural to
     # override the default
+    # add ordering by category instead of default random order to display
+    # the category as option in select html form control
     class Meta:
         verbose_name_plural = 'Categories'
+        ordering = ['category']
+
+# Create Category model here
+class Tag(models.Model):
+    tag = models.CharField(max_length=50)
+    slug = models.SlugField(
+        max_length=50, unique=True, null=False, editable=False
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('jokes:tag', args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            value = str(self)
+            self.slug = unique_slug(value, type(self))
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.tag
+    
+
+    # override the default random order to display the tags in select option
+    class Meta:
+        ordering = ['tag']
 

@@ -4,7 +4,7 @@ from django.contrib import admin
 
 # Import the Joke model from jokes app
 # add Category model to be manage by Django Admin tool
-from .models import Category, Joke
+from .models import Category, Joke, Tag
 
 # Register Joke model to be managed and create JokeAdmin
 @admin.register(Joke)
@@ -32,4 +32,14 @@ class CategoryAdmin(admin.ModelAdmin):
         if obj: # editing an existing object
             return ('slug', 'created', 'updated')
         return ()
-        
+
+# Register Tag model to be managed in Django Admin tool
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    model = Tag
+    list_display = ['tag', 'created', 'updated']
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj: # editing an existing object
+            return ('slug', 'created', 'updated')
+        return ()
