@@ -58,7 +58,11 @@
             Me
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">My Account</a>
+            <!-- <a class="dropdown-item" href="#">My Account</a> -->
+            <!-- new to create my account page -->
+            <a class="dropdown-item" href="{% url 'my-account' %}">
+              My Account
+            </a>            
             <a class="dropdown-item" href="#">My Django Jokes</a>
             <div class="dropdown-divider"></div>
             <!-- change Log out link with the form action to 
