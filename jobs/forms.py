@@ -15,8 +15,11 @@ def validate_checked(value):
         raise ValidationError("Required.")
 
 
+# redefine class JobApplicationForm to inherit forms.Model after created
+# model Applicant in models.py instead of fields defined in forms.FormView
 class JobApplicationForm(forms.ModelForm):
 
+    # constant variable
     DAYS = (
         (1, 'MON'),
         (2, 'TUE'),
@@ -25,6 +28,9 @@ class JobApplicationForm(forms.ModelForm):
         (5, 'FRI')
     )
 
+    # override the available_days field defined in import Applicant model
+    # from CharField to TypeMultipleChoiceField with widgets attributes 
+    # for HTML form control display
     available_days = forms.TypedMultipleChoiceField(
         choices=DAYS,
         coerce=int,
@@ -34,11 +40,15 @@ class JobApplicationForm(forms.ModelForm):
         )
     )
 
+    # override confirmation field define in import Applicant model in modesl.py
+    # with HTML form control attributes label and custom validator
     confirmation = forms.BooleanField(
         label = 'I certify that the information I have provided is true.',
         validators=[validate_checked]
     )
 
+    # use inner class Meta to define the widgets of HTML form control
+    # attributes for fields to display
     class Meta:
         model = Applicant
         fields = (
