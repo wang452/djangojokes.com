@@ -30,6 +30,15 @@ class JokeCreateView(CreateView):
     # fields = ['question', 'answer']
     form_class = JokeForm
 
+    # new - associate user to joke by override form_valid method
+    # to set the user value of the joke object with logged in user
+    # object in self.request.user
+    def form_valid(self, form):
+        # add user value to form before call superclass to valid form,  
+        # save data to database and redirect to success URL 
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 # Create JokeUpdateView for jokes app to update joke
 class JokeUpdateView(UpdateView):
     model = Joke

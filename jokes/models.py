@@ -6,10 +6,19 @@ from django.urls import reverse
 # import unique_slug from app common\utils\text.py to generate slug string
 from common.utils.text import unique_slug
 
+# new - associate user to joke to get AUTH_USER_MODEL 
+from django.conf import settings
+
 # Create Joke models here.
 class Joke(models.Model):
     question = models.TextField(max_length=200)
     answer = models.TextField(max_length=100, blank=True)
+    
+    # new - associate user to joke with one-to-many relationship
+    # one user many have more than one jokes
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT
+    )
 
     # column category defined many-to-one relationship with Category model
     # where many jokes for one category

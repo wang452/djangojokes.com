@@ -165,7 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTHENTICATION SETTINGS - by the CustomUser class in app users
+# AUTHENTICATION SETTINGS - by the CustomUser class in app users models.py
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # AUTHENTICATION SETTINGS for use by django-allauth
